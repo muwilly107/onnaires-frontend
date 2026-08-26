@@ -1,38 +1,326 @@
-.App {
+/* ==========================================
+   Restaurant Theme (App.css)
+   NavBar, Carousel & GetProduct Components
+   ========================================== */
+
+/* ------------------------------------------
+   1. NavBar Component Styles
+   ------------------------------------------ */
+.navbar {
+  background-color: #2C1A14 !important;
+  /* Warm espresso background */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+.navbar-brand {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #E09F3E !important;
+  /* Golden amber brand text */
+}
+
+.nav-link {
+  font-weight: 500;
+  margin-right: 12px;
+  color: #F8F1E9 !important;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+  color: #E09F3E !important;
+  /* Honey gold hover effect */
+}
+
+/* Auth Buttons in Navbar */
+.navbar .btn-signup {
+  background-color: #A83224;
+  /* Crimson accent */
+  border-color: #A83224;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 6px 18px;
+  transition: all 0.2s ease;
+}
+
+.navbar .btn-signup:hover {
+  background-color: #8B2519;
+  border-color: #8B2519;
+}
+
+/* ------------------------------------------
+   2. Carousel / Hero Component Styles
+   ------------------------------------------ */
+.carousel-inner {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(44, 26, 20, 0.15);
+}
+
+.carousel-item img {
+  height: 380px;
+  object-fit: cover;
+  filter: brightness(0.88);
+  /* Subtle contrast boost for menu items */
+}
+
+.carousel-caption {
+  background: rgba(44, 26, 20, 0.65);
+  /* Warm backdrop for slide text */
+  border-radius: 12px;
+  padding: 15px 25px;
+  bottom: 25px;
+}
+
+.carousel-caption h3,
+.carousel-caption h5 {
+  color: #FFFDF9;
+  font-weight: 700;
+}
+
+.carousel-caption p {
+  color: #E09F3E;
+  margin-bottom: 0;
+}
+
+/* ------------------------------------------
+   3. GetProduct & Menu Grid Styles
+   ------------------------------------------ */
+.get-products-container {
+  background-color: #FAF6F0;
+  padding: 2rem 0;
+}
+
+/* Search Input & Category Filters */
+.menu-search-input {
+  border-radius: 25px;
+  padding: 10px 22px;
+  border: 1px solid #D8C7B5;
+  background-color: #FFFDF9;
+}
+
+.menu-search-input:focus {
+  border-color: #E09F3E;
+  box-shadow: 0 0 0 0.25rem rgba(224, 159, 62, 0.25);
+}
+
+/* Food Item Cards */
+.card-margin,
+.product-card {
+  border: 1px solid #F2E8DC;
+  border-radius: 14px;
+  background-color: #FFFDF9;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(44, 26, 20, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card-margin:hover,
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(44, 26, 20, 0.14) !important;
+}
+
+.product-img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+
+/* Typography & Price Tag */
+.product-card .card-title {
+  font-weight: 700;
+  color: #2C1A14;
+}
+
+.product-card .card-text {
+  font-size: 0.92rem;
+  color: #6E5A53;
+}
+
+.product-price {
+  color: #A83224;
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+/* Order / Add Buttons */
+.btn-order {
+  background-color: #E09F3E;
+  border: none;
+  color: #2C1A14;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 8px 18px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-order:hover {
+  background-color: #C8892E;
+  color: #FFFFFF;
+}
+
+/* ==========================================
+   1. Footer Component Styles
+   ========================================== */
+
+footer.onnaires-footer {
+  background-color: #2C1A14;
+  color: #F8F1E9;
+  padding: 3rem 0 1.5rem 0;
+  margin-top: 4rem;
+  border-top: 3px solid #E09F3E;
+}
+
+.onnaires-footer .brand-title,
+.onnaires-footer .footer-section-title {
+  color: #E09F3E;
+  font-weight: 700;
+}
+
+.onnaires-footer .brand-title {
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.onnaires-footer .footer-section-title {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.onnaires-footer .footer-text,
+.onnaires-footer .contact-info {
+  color: #D8C7B5;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.onnaires-footer .copyright-text {
+  color: #9E8B82;
+  font-size: 0.85rem;
+  margin-top: 1.2rem;
+}
+
+.onnaires-footer .footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.onnaires-footer .footer-links li {
+  margin-bottom: 0.6rem;
+}
+
+.onnaires-footer .footer-link {
+  color: #F8F1E9;
+  text-decoration: none;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+  display: inline-block;
+}
+
+.onnaires-footer .footer-link:hover {
+  color: #E09F3E;
+  padding-left: 4px;
+}
+
+
+/* ==========================================
+   2. Searchbar Styles
+   ========================================== */
+
+.search-bar-input {
+  border: 2px solid #E09F3E;
+  border-radius: 20px 0 0 20px;
+  padding: 8px 16px;
+  background-color: #FFFFFF;
+  color: #2C1A14;
+}
+
+.search-bar-input:focus {
+  border-color: #C8892E;
+  box-shadow: none;
+}
+
+.search-bar-btn {
+  background-color: #E09F3E;
+  border: 2px solid #E09F3E;
+  color: #2C1A14;
+  border-radius: 0 20px 20px 0;
+  font-weight: 700;
+  padding: 8px 18px;
+  transition: background-color 0.2s ease;
+}
+
+.search-bar-btn:hover {
+  background-color: #C8892E;
+  border-color: #C8892E;
+  color: #FFFFFF;
+}
+
+
+/* ==========================================
+   3. Add Product, Sign In & Sign Up Cards
+   ========================================== */
+
+.add-product-card,
+.auth-card {
+  background-color: #FFFDF9;
+  border: 1px solid #F2E8DC;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(44, 26, 20, 0.12);
+  padding: 2rem;
+}
+
+.add-product-title,
+.auth-title {
+  color: #E09F3E;
+  font-weight: 700;
   text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Specificity beats default Bootstrap input styles */
+.add-product-card .form-control,
+.add-product-card .form-select,
+.auth-card .form-control,
+.auth-card .form-select {
+  border-radius: 10px;
+  border: 1px solid #D8C7B5;
+  background-color: #FFFFFF;
+  color: #2C1A14;
+  padding: 10px 14px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.add-product-card .form-control:focus,
+.add-product-card .form-select:focus,
+.auth-card .form-control:focus,
+.auth-card .form-select:focus {
+  border-color: #E09F3E;
+  box-shadow: 0 0 0 0.25rem rgba(224, 159, 62, 0.25);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.btn-add-product,
+.btn-auth {
+  background-color: #E09F3E;
+  border: none;
+  color: #2C1A14;
+  font-weight: 700;
+  border-radius: 25px;
+  padding: 12px;
+  width: 100%;
+  margin-top: 1rem;
+  transition: background-color 0.2s ease;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn-add-product:hover,
+.btn-auth:hover {
+  background-color: #C8892E;
+  color: #FFFFFF;
 }

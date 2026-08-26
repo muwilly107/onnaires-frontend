@@ -21,9 +21,9 @@ function App() {
       <NotificationToast />
       <Routes>
         <Route path="/" element={<GetProduct />} />
-        <Route path="/add" element={<AddProduct />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/addProduct" element={<AddProduct />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/mpesa" element={<MpesaPayment />} />
         <Route path="/cart" element={<CartModal />} />
         <Route path="/wishlist" element={<Wishlist />} />

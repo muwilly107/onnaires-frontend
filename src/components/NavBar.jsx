@@ -24,7 +24,7 @@ const NavBar = () => {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/add">
+                        <Link className="nav-link" to="/addProduct">
                             Add Product
                         </Link>
                     </li>
@@ -36,6 +36,20 @@ const NavBar = () => {
                     <li className="nav-item">
                         <Link className="nav-link" to="/cart">
                             Cart
+                        </Link>
+                    </li>
+                </ul>
+
+                {/* Added Sign In & Sign Up links to the right side */}
+                <ul className="navbar-nav ms-auto">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/signin">
+                            Sign In
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="btn btn-outline-warning ms-2" to="/signup">
+                            Sign Up
                         </Link>
                     </li>
                 </ul>

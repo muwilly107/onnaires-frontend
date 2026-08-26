@@ -8,15 +8,16 @@ const GetProduct = () => {
     const [error, setError] = useState("");
 
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("All");
     const navigate = useNavigate();
 
-    const image_url = "https://william123.alwaysdata.net/static/images/";
+    const image_url = "http://127.0.0.1:5000/static/images/";
 
     const getproducts = async () => {
         setLoading("hold on as we get your products...");
         try {
             const response = await axios.get(
-                "https://william123.alwaysdata.net/api/getproducts"
+                "http://127.0.0.1:5000/api/getproducts"
             );
             // update our hook with the data from the database (response)
             setProducts(response.data);
@@ -32,15 +33,23 @@ const GetProduct = () => {
         getproducts();
     }, []);
 
-    const filteredProducts = products.filter((product) =>
-        product.product_name?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredProducts = products.filter((product) => {
+        const matchesSearch = product.product_name
+            ?.toLowerCase()
+            .includes(searchTerm.toLowerCase());
+        const matchesCategory =
+            selectedCategory === "All" ||
+            product.product_category?.toLowerCase() === selectedCategory.toLowerCase();
+        return matchesSearch && matchesCategory;
+    });
 
     return (
         <div className="row container-fluid">
-            <h1 className="text-success display-4 text-center my-3">
+            <h1 className="text-warning display-4 text-center my-3">
                 Onnaires Restaurant Menu
             </h1>
+
+            {/* Search Input */}
             <div className="row mb-4">
                 <div className="col-md-6 mx-auto">
                     <input
@@ -51,6 +60,22 @@ const GetProduct = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
+            </div>
+
+            {/* Filter Buttons */}
+            <div className="d-flex justify-content-center gap-2 mb-4">
+                {["All", "Food", "Drinks", "Desserts"].map((category) => (
+                    <button
+                        key={category}
+                        className={`btn ${selectedCategory === category
+                                ? "btn-warning"
+                                : "btn-outline-warning"
+                            }`}
+                        onClick={() => setSelectedCategory(category)}
+                    >
+                        {category}
+                    </button>
+                ))}
             </div>
 
             {error} {loading}
@@ -73,8 +98,10 @@ const GetProduct = () => {
                                 Ksh {product.product_cost}
                             </p>
                             <button
-                                className="btn btn-success mt-2 w-100"
-                                onClick={() => navigate("/mpesa", { state: { product } })}
+                                className="btn btn-warning mt-2 w-100"
+                                onClick={() =>
+                                    navigate("/mpesa", { state: { product } })
+                                }
                             >
                                 Purchase
                             </button>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "../App.css";
 
 const AddProduct = () => {
     const [productName, setProductName] = useState("");
@@ -32,7 +33,9 @@ const AddProduct = () => {
             );
 
             setLoading("");
-            setSuccess(response.data.message || "Menu item added successfully!");
+            setSuccess(
+                response.data.message || "Menu item added successfully!"
+            );
             setProductName("");
             setProductDescription("");
             setProductCost("");
@@ -46,12 +49,14 @@ const AddProduct = () => {
 
     return (
         <div className="row justify-content-center mt-4 me-0 ms-0">
-            <div className="col-md-6 card shadow p-4">
+            <div className="col-md-6 card shadow p-4 add-product-card">
                 {loading && <div className="alert alert-info">{loading}</div>}
                 {success && <div className="alert alert-success">{success}</div>}
                 {error && <div className="alert alert-danger">{error}</div>}
 
-                <h2 className="mb-3">Add Restaurant Item</h2>
+                <h2 className="mb-3 text-center add-product-title">
+                    Add Restaurant Item
+                </h2>
 
                 <form onSubmit={submit}>
                     <div className="mb-3">
@@ -107,7 +112,7 @@ const AddProduct = () => {
                         />
                     </div>
 
-                    <button type="submit" className="btn btn-primary w-100">
+                    <button type="submit" className="btn btn-add-product">
                         Add to Menu
                     </button>
                 </form>
