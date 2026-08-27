@@ -13,7 +13,7 @@ const NotificationToast = ({ message, type = "success", onClose }) => {
                 role="alert"
             >
                 <div className="d-flex">
-                    <div className="toast-body">{message}</div>
+                    <div className="toast-body fw-bold">{message}</div>
                     <button
                         type="button"
                         className="btn-close btn-close-white me-2 m-auto"

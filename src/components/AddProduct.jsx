@@ -1,137 +1,130 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "../App.css";
+import { useNavigate, Link } from "react-router-dom";
 
-const AddProduct = () => {
-    const [productName, setProductName] = useState("");
-    const [productDescription, setProductDescription] = useState("");
-    const [productCost, setProductCost] = useState("");
-    const [productCategory, setProductCategory] = useState("Food");
-    const [productPhoto, setProductPhoto] = useState(null);
+const AddProduct = ({ user }) => {
+    const navigate = useNavigate();
+    const [name, setName] = useState("");
+    const [cost, setCost] = useState("");
+    const [category, setCategory] = useState("Food");
+    const [description, setDescription] = useState("");
+    const [photo, setPhoto] = useState(null);
+    const [message, setMessage] = useState("");
 
-    const [loading, setLoading] = useState("");
-    const [success, setSuccess] = useState("");
-    const [error, setError] = useState("");
+    // Lock page if user is not signed in
+    if (!user) {
+        return (
+            <div className="container my-5 text-center" style={{ minHeight: "50vh" }}>
+                <div className="card bg-dark text-light border-warning p-5 mx-auto" style={{ maxWidth: "500px" }}>
+                    <h3 className="text-warning mb-3">Access Restricted</h3>
+                    <p className="text-secondary mb-4">You must be signed in to add new products to the menu.</p>
+                    <div className="d-flex justify-content-center gap-3">
+                        <Link to="/signin" className="btn btn-warning fw-bold text-dark">
+                            Sign In Now
+                        </Link>
+                        <Link to="/" className="btn btn-outline-secondary">
+                            Back to Menu
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
-    const submit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setMessage("Uploading product...");
 
-        if (!productPhoto) {
-            setError("Please upload an image.");
-            return;
-        }
-
-        setLoading("Uploading product details...");
-        setError("");
-        setSuccess("");
+        const formData = new FormData();
+        formData.append("product_name", name);
+        formData.append("product_cost", cost);
+        formData.append("product_category", category);
+        formData.append("product_description", description);
+        formData.append("product_photo", photo);
 
         try {
-            const data = new FormData();
-            data.append("product_name", productName);
-            data.append("product_description", productDescription);
-            data.append("product_cost", productCost);
-            // Explicitly pass category (defaults to 'Food' if state is somehow blank)
-            data.append("product_category", productCategory || "Food"); 
-            data.append("product_photo", productPhoto);
-
             const response = await axios.post(
                 "https://william123.alwaysdata.net/api/addproduct",
-                data,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
+                formData
             );
-
-            setLoading("");
-            setSuccess(response.data.message || "Menu item added successfully!");
-            setProductName("");
-            setProductDescription("");
-            setProductCost("");
-            setProductCategory("Food");
-            setProductPhoto(null);
-            e.target.reset(); // Reset file input UI
-        } catch (err) {
-            setLoading("");
-            setError("Failed to add product. Please check server connection.");
+            setMessage(response.data.message || "Product added successfully!");
+            setTimeout(() => navigate("/"), 1500);
+        } catch (error) {
+            setMessage("Failed to add product. Please check input values.");
         }
     };
 
     return (
-        <div className="row justify-content-center mt-4 me-0 ms-0">
-            <div className="col-md-6 card shadow p-4 add-product-card">
-                {loading && <div className="alert alert-info">{loading}</div>}
-                {success && <div className="alert alert-success">{success}</div>}
-                {error && <div className="alert alert-danger">{error}</div>}
+        <div className="container my-5">
+            <div className="row justify-content-center">
+                <div className="col-md-6 card bg-dark text-light border-warning shadow p-4">
+                    <h2 className="text-center text-warning fw-bold mb-4">Add Menu Item</h2>
 
-                <h2 className="mb-3 text-center add-product-title">
-                    Add Restaurant Item
-                </h2>
+                    {message && <div className="alert alert-warning text-dark">{message}</div>}
 
-                <form onSubmit={submit}>
-                    <div className="mb-3">
-                        <label className="form-label fw-bold">Item Name</label>
-                        <input
-                            type="text"
-                            placeholder="Item Name"
-                            className="form-control"
-                            required
-                            value={productName}
-                            onChange={(e) => setProductName(e.target.value)}
-                        />
-                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <label className="form-label text-warning">Product Name</label>
+                            <input
+                                type="text"
+                                className="form-control bg-dark text-light border-warning"
+                                required
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                        </div>
 
-                    <div className="mb-3">
-                        <label className="form-label fw-bold">Description</label>
-                        <textarea
-                            placeholder="Description"
-                            className="form-control"
-                            required
-                            value={productDescription}
-                            onChange={(e) => setProductDescription(e.target.value)}
-                        ></textarea>
-                    </div>
+                        <div className="mb-3">
+                            <label className="form-label text-warning">Cost (Ksh)</label>
+                            <input
+                                type="number"
+                                className="form-control bg-dark text-light border-warning"
+                                required
+                                value={cost}
+                                onChange={(e) => setCost(e.target.value)}
+                            />
+                        </div>
 
-                    <div className="mb-3">
-                        <label className="form-label fw-bold">Price (KES)</label>
-                        <input
-                            type="number"
-                            placeholder="Price"
-                            className="form-control"
-                            required
-                            value={productCost}
-                            onChange={(e) => setProductCost(e.target.value)}
-                        />
-                    </div>
+                        <div className="mb-3">
+                            <label className="form-label text-warning">Category</label>
+                            <select
+                                className="form-select bg-dark text-light border-warning"
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                            >
+                                <option value="Food">Food</option>
+                                <option value="Drinks">Drinks</option>
+                                <option value="Desserts">Desserts</option>
+                            </select>
+                        </div>
 
-                    <div className="mb-3">
-                        <label className="form-label fw-bold">Category</label>
-                        <select
-                            className="form-select"
-                            value={productCategory}
-                            onChange={(e) => setProductCategory(e.target.value)}
-                        >
-                            <option value="Food">Food</option>
-                            <option value="Drinks">Drinks</option>
-                            <option value="Desserts">Desserts</option>
-                        </select>
-                    </div>
+                        <div className="mb-3">
+                            <label className="form-label text-warning">Description</label>
+                            <textarea
+                                className="form-control bg-dark text-light border-warning"
+                                rows="3"
+                                required
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            ></textarea>
+                        </div>
 
-                    <div className="mb-3">
-                        <label className="form-label fw-bold">Photo</label>
-                        <input
-                            type="file"
-                            className="form-control"
-                            required
-                            onChange={(e) => setProductPhoto(e.target.files[0])}
-                        />
-                    </div>
+                        <div className="mb-3">
+                            <label className="form-label text-warning">Product Photo</label>
+                            <input
+                                type="file"
+                                className="form-control bg-dark text-light border-warning"
+                                accept="image/*"
+                                required
+                                onChange={(e) => setPhoto(e.target.files[0])}
+                            />
+                        </div>
 
-                    <button type="submit" className="btn btn-warning w-100 fw-bold mt-2">
-                        Add to Menu
-                    </button>
-                </form>
+                        <button type="submit" className="btn btn-warning fw-bold text-dark w-100 mt-3">
+                            Upload Product
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     );

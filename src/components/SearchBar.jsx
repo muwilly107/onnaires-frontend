@@ -7,7 +7,14 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
                 <input
                     type="text"
                     className="form-control form-control-lg shadow-sm"
-                    placeholder="Search games, consoles, or gear..."
+                    style={{
+                        backgroundColor: "#1a1a1a",
+                        color: "#ffc107",
+                        borderColor: "#ffc107",
+                        caretColor: "#ffc107",
+                        WebkitTextFillColor: "#dbad07"
+                    }}
+                    placeholder="Search food, drinks, or desserts..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
