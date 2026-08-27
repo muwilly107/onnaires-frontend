@@ -15,6 +15,12 @@ const AddProduct = () => {
 
     const submit = async (e) => {
         e.preventDefault();
+
+        if (!productPhoto) {
+            setError("Please upload an image.");
+            return;
+        }
+
         setLoading("Uploading product details...");
         setError("");
         setSuccess("");
@@ -24,23 +30,28 @@ const AddProduct = () => {
             data.append("product_name", productName);
             data.append("product_description", productDescription);
             data.append("product_cost", productCost);
-            data.append("product_category", productCategory);
+            // Explicitly pass category (defaults to 'Food' if state is somehow blank)
+            data.append("product_category", productCategory || "Food"); 
             data.append("product_photo", productPhoto);
 
             const response = await axios.post(
                 "https://william123.alwaysdata.net/api/addproduct",
-                data
+                data,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
             );
 
             setLoading("");
-            setSuccess(
-                response.data.message || "Menu item added successfully!"
-            );
+            setSuccess(response.data.message || "Menu item added successfully!");
             setProductName("");
             setProductDescription("");
             setProductCost("");
             setProductCategory("Food");
             setProductPhoto(null);
+            e.target.reset(); // Reset file input UI
         } catch (err) {
             setLoading("");
             setError("Failed to add product. Please check server connection.");
@@ -60,9 +71,10 @@ const AddProduct = () => {
 
                 <form onSubmit={submit}>
                     <div className="mb-3">
+                        <label className="form-label fw-bold">Item Name</label>
                         <input
                             type="text"
-                            placeholder="Item Name (e.g. Chicken Wings)"
+                            placeholder="Item Name"
                             className="form-control"
                             required
                             value={productName}
@@ -71,8 +83,9 @@ const AddProduct = () => {
                     </div>
 
                     <div className="mb-3">
+                        <label className="form-label fw-bold">Description</label>
                         <textarea
-                            placeholder="Description (e.g. Spicy grilled wings with dipping sauce)"
+                            placeholder="Description"
                             className="form-control"
                             required
                             value={productDescription}
@@ -81,9 +94,10 @@ const AddProduct = () => {
                     </div>
 
                     <div className="mb-3">
+                        <label className="form-label fw-bold">Price (KES)</label>
                         <input
                             type="number"
-                            placeholder="Price (KES)"
+                            placeholder="Price"
                             className="form-control"
                             required
                             value={productCost}
@@ -92,6 +106,7 @@ const AddProduct = () => {
                     </div>
 
                     <div className="mb-3">
+                        <label className="form-label fw-bold">Category</label>
                         <select
                             className="form-select"
                             value={productCategory}
@@ -99,11 +114,12 @@ const AddProduct = () => {
                         >
                             <option value="Food">Food</option>
                             <option value="Drinks">Drinks</option>
-                            <option value="Dessert">Dessert</option>
+                            <option value="Desserts">Desserts</option>
                         </select>
                     </div>
 
                     <div className="mb-3">
+                        <label className="form-label fw-bold">Photo</label>
                         <input
                             type="file"
                             className="form-control"
@@ -112,7 +128,7 @@ const AddProduct = () => {
                         />
                     </div>
 
-                    <button type="submit" className="btn btn-add-product">
+                    <button type="submit" className="btn btn-warning w-100 fw-bold mt-2">
                         Add to Menu
                     </button>
                 </form>

@@ -7,7 +7,7 @@ const GetProduct = () => {
 
     useEffect(() => {
         axios
-            .get("http://127.0.0.1:5000/api/getproducts")
+            .get("http://william123.alwaysdata.net/api/getproducts")
             .then((res) => setProducts(res.data))
             .catch((err) => console.log(err));
     }, []);
@@ -20,7 +20,7 @@ const GetProduct = () => {
                     <div className="col-md-4 mb-4" key={product.product_id}>
                         <div className="card h-100 shadow-sm">
                             <img
-                                src={`http://127.0.0.1:5000/static/images/${product.product_photo}`}
+                                src={`http://william123.alwaysdata.net/static/images/${product.product_photo}`}
                                 className="card-img-top"
                                 alt={product.product_name}
                                 style={{ height: "200px", objectFit: "cover" }}

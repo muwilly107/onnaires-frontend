@@ -18,7 +18,7 @@ const SignUp = () => {
         formData.append('phone', phone);
 
         axios
-            .post('http://127.0.0.1:5000/api/signup', formData)
+            .post('http://william123.alwaysdata.net/api/signup', formData)
             .then((response) => {
                 setMessage(response.data.message);
             })

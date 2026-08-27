@@ -11,15 +11,14 @@ const GetProduct = () => {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const navigate = useNavigate();
 
-    const image_url = "http://127.0.0.1:5000/static/images/";
+    const image_url = "https://william123.alwaysdata.net/static/images/";
 
     const getproducts = async () => {
         setLoading("hold on as we get your products...");
         try {
             const response = await axios.get(
-                "http://127.0.0.1:5000/api/getproducts"
+                "https://william123.alwaysdata.net/api/getproducts"
             );
-            // update our hook with the data from the database (response)
             setProducts(response.data);
             setLoading("");
         } catch (error) {
@@ -28,18 +27,23 @@ const GetProduct = () => {
         }
     };
 
-    // call the function
     useEffect(() => {
         getproducts();
     }, []);
 
     const filteredProducts = products.filter((product) => {
+        // 1. Search term check
         const matchesSearch = product.product_name
             ?.toLowerCase()
             .includes(searchTerm.toLowerCase());
+
+        // 2. Category check (Case-insensitive & trims spaces)
+        const dbCat = (product.product_category || "").toString().toLowerCase().trim();
+        const selectedCat = selectedCategory.toLowerCase().trim();
+
         const matchesCategory =
-            selectedCategory === "All" ||
-            product.product_category?.toLowerCase() === selectedCategory.toLowerCase();
+            selectedCategory === "All" || dbCat === selectedCat;
+
         return matchesSearch && matchesCategory;
     });
 
@@ -67,10 +71,11 @@ const GetProduct = () => {
                 {["All", "Food", "Drinks", "Desserts"].map((category) => (
                     <button
                         key={category}
-                        className={`btn ${selectedCategory === category
+                        className={`btn ${
+                            selectedCategory === category
                                 ? "btn-warning"
                                 : "btn-outline-warning"
-                            }`}
+                        }`}
                         onClick={() => setSelectedCategory(category)}
                     >
                         {category}
@@ -88,7 +93,7 @@ const GetProduct = () => {
                     <div className="card shadow card-margin">
                         <img
                             src={image_url + product.product_photo}
-                            alt="Image"
+                            alt={product.product_name}
                             className="product-img"
                         />
                         <div className="card-body">
