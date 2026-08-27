@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 const CartModal = ({ show, handleClose, cartItems = [], onRemoveItem }) => {
     const navigate = useNavigate();
     const [locationNotes, setLocationNotes] = useState("");
+    const image_url = "https://william123.alwaysdata.net/static/images/";
 
     if (!show) return null;
 
@@ -14,7 +15,6 @@ const CartModal = ({ show, handleClose, cartItems = [], onRemoveItem }) => {
 
     const handleProceedToCheckout = () => {
         handleClose();
-        // Pass the entire cart and delivery notes to M-Pesa page
         navigate("/mpesa", { 
             state: { 
                 cartItems, 
@@ -30,10 +30,10 @@ const CartModal = ({ show, handleClose, cartItems = [], onRemoveItem }) => {
             tabIndex="-1"
             style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
         >
-            <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-dialog modal-dialog-centered modal-lg">
                 <div className="modal-content bg-dark text-light border border-warning">
                     <div className="modal-header border-bottom border-warning">
-                        <h5 className="modal-title text-warning fw-bold">Your Cart</h5>
+                        <h5 className="modal-title text-warning fw-bold">Your Order Cart</h5>
                         <button
                             type="button"
                             className="btn-close btn-close-white"
@@ -41,25 +41,35 @@ const CartModal = ({ show, handleClose, cartItems = [], onRemoveItem }) => {
                         ></button>
                     </div>
 
-                    <div className="modal-body" style={{ maxHeight: "400px", overflowY: "auto" }}>
+                    <div className="modal-body" style={{ maxHeight: "420px", overflowY: "auto" }}>
                         {cartItems.length === 0 ? (
-                            <p className="text-center text-secondary my-3">
+                            <p className="text-center text-secondary my-4">
                                 Your cart is currently empty.
                             </p>
                         ) : (
                             <>
-                                <ul className="list-group list-group-flush mb-3">
+                                <div className="d-flex flex-column gap-2 mb-3">
                                     {cartItems.map((item, index) => (
-                                        <li
+                                        <div
                                             key={index}
-                                            className="list-group-item bg-dark text-light border-secondary d-flex justify-content-between align-items-center"
+                                            className="d-flex align-items-center justify-content-between bg-dark text-light border border-secondary rounded p-2"
                                         >
-                                            <div>
-                                                <div className="fw-bold">{item.product_name}</div>
-                                                <small className="text-success fw-bold">
-                                                    Ksh {item.product_cost}
-                                                </small>
+                                            {/* Product Image Thumbnail */}
+                                            <div className="d-flex align-items-center gap-3">
+                                                <img
+                                                    src={image_url + item.product_photo}
+                                                    alt={item.product_name}
+                                                    className="rounded border border-secondary"
+                                                    style={{ width: "60px", height: "60px", objectFit: "cover" }}
+                                                />
+                                                <div>
+                                                    <h6 className="mb-0 text-warning">{item.product_name}</h6>
+                                                    <small className="text-success fw-bold">
+                                                        Ksh {item.product_cost}
+                                                    </small>
+                                                </div>
                                             </div>
+
                                             {onRemoveItem && (
                                                 <button
                                                     className="btn btn-outline-danger btn-sm"
@@ -68,11 +78,11 @@ const CartModal = ({ show, handleClose, cartItems = [], onRemoveItem }) => {
                                                     Remove
                                                 </button>
                                             )}
-                                        </li>
+                                        </div>
                                     ))}
-                                </ul>
+                                </div>
 
-                                {/* Delivery Location Field */}
+                                {/* Delivery Location Input */}
                                 <div className="mb-2">
                                     <label className="form-label text-warning small fw-bold">
                                         Delivery Location / Landmark
