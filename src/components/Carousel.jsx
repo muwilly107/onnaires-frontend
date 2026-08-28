@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { Carousel as BSCarousel } from "bootstrap";
 
 const Carousel = () => {
+    const carouselRef = useRef(null);
+
+    useEffect(() => {
+        if (carouselRef.current) {
+            const carouselInstance = new BSCarousel(carouselRef.current, {
+                interval: 3500,
+                ride: "carousel",
+                pause: "hover",
+                wrap: true
+            });
+
+            return () => {
+                carouselInstance.dispose();
+            };
+        }
+    }, []);
+
     return (
         <div 
+            ref={carouselRef}
             id="onnairesCarousel" 
-            className="carousel slide container my-4" 
+            className="carousel slide carousel-fade container my-4" 
             data-bs-ride="carousel"
         >
             <div className="carousel-indicators">
@@ -14,27 +33,30 @@ const Carousel = () => {
             </div>
 
             <div className="carousel-inner rounded border border-warning">
+                {/* Slide 1: Restaurant / Visit Us */}
                 <div className="carousel-item active" style={{ height: "380px", backgroundColor: "#1a0703" }}>
-                    <img src="" className="d-block w-100 h-100" style={{ objectFit: "cover" }} alt="Slide 1" />
+                    <img src="/images/restaurant.png" className="d-block w-100 h-100" style={{ objectFit: "cover" }} alt="Our Restaurant" />
                     <div className="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded p-3">
-                        <h3 className="text-warning fw-bold">Special Delicacies</h3>
-                        <p>Freshly cooked restaurant meals delivered hot to your doorstep.</p>
+                        <h3 className="text-warning fw-bold">Visit Our Dining Hub</h3>
+                        <p>Experience the vibe in person! Find us at Klabu Avenue 6 for rich flavors & great company.</p>
                     </div>
                 </div>
 
+                {/* Slide 2: Delivery */}
                 <div className="carousel-item" style={{ height: "380px", backgroundColor: "#1a0703" }}>
-                    <img src="" className="d-block w-100 h-100" style={{ objectFit: "cover" }} alt="Slide 2" />
+                    <img src="/images/delivery.png" className="d-block w-100 h-100" style={{ objectFit: "cover" }} alt="Fast Delivery" />
                     <div className="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded p-3">
-                        <h3 className="text-warning fw-bold">Refreshing Beverages</h3>
-                        <p>Pair your order with your favorite cold drinks and juices.</p>
+                        <h3 className="text-warning fw-bold">Lightning-Fast Deliveries</h3>
+                        <p>Craving on the go? We dispatch piping hot meals to your doorstep in minutes!</p>
                     </div>
                 </div>
 
+                {/* Slide 3: Chefs / Bakery */}
                 <div className="carousel-item" style={{ height: "380px", backgroundColor: "#1a0703" }}>
-                    <img src="" className="d-block w-100 h-100" style={{ objectFit: "cover" }} alt="Slide 3" />
+                    <img src="/images/chefs.png" className="d-block w-100 h-100" style={{ objectFit: "cover" }} alt="Crafted by Experts" />
                     <div className="carousel-caption d-none d-md-block bg-dark bg-opacity-75 rounded p-3">
-                        <h3 className="text-warning fw-bold">Sweet Desserts</h3>
-                        <p>Indulge in our selection of cakes, pastries, and sweet treats.</p>
+                        <h3 className="text-warning fw-bold">Artisanal Bakery & Brews</h3>
+                        <p>Handcrafted pastries, fresh oven bakes, and rich espresso prepared by our master culinary team.</p>
                     </div>
                 </div>
             </div>
